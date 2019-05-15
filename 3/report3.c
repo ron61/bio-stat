@@ -2,27 +2,31 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<math.h>
+
+double ber_05(int k,int n)
+{
+    double x = 0;
+    double r = 1;
+
+    for (int i = 0; i < k; i++)
+    {
+        r *= n/k;
+        n --;
+        k --;
+    }
+
+    x = r * pow(0.5,10);
+    return x;
+}
 
 int main(void)
 {
-    int klist[11] = {};
-    int k,r;
-    srand(time(0));
-    for (int i = 0; i < 10000; i++)
-    {
-        k = 0;
-        for (int j = 0; j < 10; j++)
-        {
-            r = rand()%2;
-            if(r == 1) k++;
-        } 
-
-        klist[k] ++;
-    }
-    
+    int x;
     for (int i = 0; i < 11; i++)
     {
-        printf("%d\n",klist[i]);
+        x = ber_05(i,10)*1000;
+        printf("%d : %d\n",i,x);
     }
 
     return 0;
