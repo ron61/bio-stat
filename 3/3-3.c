@@ -16,7 +16,7 @@ int main(void){
     srand(time(0));
     for (int i = 0; i < 5; i++)
     {
-        printf("%lf\n",x[rand()%100]);
+        printf("%3.1f\n",x[rand()%100]);
     }
     
     return 0;
