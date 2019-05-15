@@ -24,7 +24,6 @@ int main(void)
     {
         printf("%d\n",klist[i]);
     }
-    
 
     return 0;
 }
