@@ -1,4 +1,4 @@
-/* 3-2.c */
+/* 03190615 Kudoh Ryu */
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -11,7 +11,7 @@ double ber_05(int k,int n)
 
     for (int i = 0; i < k; i++)
     {
-        r *= n/k;
+        r = r*(n/k);
         n --;
         k --;
     }
