@@ -30,10 +30,10 @@ int combination(int n,int m) {
     }
 }
 
-int calcTrues(int x[]) {
+int countTrues(int x[],int k) {
     int n = 0;
 
-    for (int i = 0; i < length(x); i++)
+    for (int i = 0; i < k; i++)
     {
         if (x[i] == 1) n++;
     }
@@ -72,23 +72,25 @@ int main(void) {
     double f[2][11];
     int carp[20];
     int N=10;   int M=10;   int n = 10;
-    double p = M / (M+N);
+    double p = 0;
+    p = M / (M+N);
 
     // 初期化
-    for (int i = 0; i < 2; i++) for (int j = 0; j < 500; j++)   f[i][j] = 0;
-    for (int i = 0; i < length(carp); i++)  carp[i] = 0;
+    for (int i = 0; i < 2; i++) for (int j = 0; j < 11; j++)   f[i][j] = 0;
+    for (int i = 0; i < sizeof(carp); i++)  carp[i] = 0;
     srand(time(0));
     
     for (int i = 0; i < 1000; i++)
     {
-        x = 1;
-        while(rand()%2) {
-            x ++;
+        while(countTrues(carp,sizeof(carp))<10) {
+            x = rand() % 20;
+            carp[x] = 1;
         }
-        
-        f[0][x] ++;
+    
+        f[0][countTrues(carp,sizeof(carp)/2)] ++;
     }
 
+    /*
     // calculate mean
     for (int i = 0; i < 1000; i++)
     {
@@ -103,6 +105,7 @@ int main(void) {
             v += (i - m) * (i - m) / 1000;
         }
     }
+    */
     
 
     // calculate geometry
