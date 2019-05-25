@@ -65,13 +65,16 @@ int main(void) {
     // calculate mean
     for (int i = 0; i < 1000; i++)
     {
-        m += f[0][i] / 1000;
+        m += f[0][i] * i / 1000;
     }
 
     // calculate variance
-    for (int i = 0; i < 500; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        v += (f[0][i] - m) * (f[0][i] - m) / 1000;
+        for (int j = 0; j < f[0][i]; j++)
+        {
+            v += (i - m) * (i - m) / 1000;
+        }
     }
     
     // calculate poisson
@@ -82,14 +85,14 @@ int main(void) {
         f[1][i] = x;
     }
 
-    printf("成功回数\tベルヌーイ試行\tポアソン分布\n");
+    printf("成功回数 ベルヌーイ試行 ポアソン分布\n");
 
     for (int i = 0; i <= 15; i++)
     {
-        printf("%3d\t%8.3lf\t%8.3lf\n",i,f[0][i],f[1][i]);
+        printf("%3d\t%8.2lf\t%8.2lf\n",i,f[0][i],f[1][i]);
     }
 
-    printf("\n平均:%8.3lf\n分散:%8.3lf\n",m,v);
+    printf("\n平均\t%8.2lf\t%8.2lf\n分散\t%8.2lf\t%8.2lf\n",m,2.5,v,2.5);
 
     return 0;
 }
