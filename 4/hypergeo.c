@@ -71,7 +71,7 @@ int main(void) {
     for (int i = 0; i < 1000; i++)
     {
         // carpの初期化
-        for (int i = 0; i < sizeof(carp); i++)  carp[i] = 0;
+        for (int i = 0; i < 20; i++)  carp[i] = 0;
 
         while(countTrues(carp,20)<10) {
             x = rand() % 20;
@@ -98,11 +98,7 @@ int main(void) {
 
 
     // calculate hyper geometry
-    for (int i = 0; i <= 4; i++)
-    {
-        f[1][i] = hypergeom(N,M,n,i);
-    }
-    for (int i = 5; i <= 10; i++)
+    for (int i = 0; i <= 10; i++)
     {
         f[1][i] = hypergeom(N,M,n,i);
     }
