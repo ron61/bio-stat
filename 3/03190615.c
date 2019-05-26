@@ -8,12 +8,12 @@ double ber_05(int k,int n)
 {
     double x = 0;
     double r = 1;
-
+    
     for (int i = 0; i < k; i++)
     {
         r = r*(n/k);
         n --;
-        k --;
+        k -- ;
     }
 
     x = r * pow(0.5,10);
