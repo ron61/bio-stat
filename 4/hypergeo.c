@@ -47,10 +47,7 @@ int countTrues(int x[],int k) {
 
 
 double hypergeom(int M,int N,int n,int k) {
-    int l = combination(M+N,n);
-    double y = 1.1;
-    y = (double)combination(M,k) * combination(N,n-k) / l;
-    return y;
+    return (double)combination(M,k) * combination(N,n-k) / combination(M+N,n);
 }
 
 
