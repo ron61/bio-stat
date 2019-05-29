@@ -38,18 +38,23 @@ int main(void)
 {
     double m,v,s;
     srand(615);    // seedは学生証番号の下四桁
-    double x[100];
+    double population[100];
+    double sample[10];
     int i,n;
     scanf("%d", &n);
     
     for(int i = 0; i < 100; i++)
     {
-        scanf("%lf", &x[i]);
+        scanf("%lf", &population[i]);
     }
 
-    m = sMean(n,x);
-    v = sDispersion(n,x);
-    s = sStandardDispersion(n,x);
+    for(int i = 0; i < 10;i++) {
+        sample[i] = population[rand()%100];
+    }
+
+    m = sMean(n,sample);
+    v = sDispersion(n,sample);
+    s = sStandardDispersion(n,sample);
 
     printf("標本平均\t%8.2lf\n", m);
     printf("標本分散\t%8.2lf\n", v);
