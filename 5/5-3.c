@@ -52,6 +52,7 @@ int main(void)
         sample[i] = population[rand()%100];
     }
 
+    n = 10;
     m = sMean(n,sample);
     v = sDispersion(n,sample);
     s = sStandardDispersion(n,sample);
