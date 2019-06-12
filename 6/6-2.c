@@ -66,9 +66,9 @@ int main(void) {
     
     // データの読み込み
     for(int i = 0; i < 11; i++) {
-        height[i] = 0;
         weight[i] = 0;
         scanf("%lf", &weight[i]);
+        height[i] = 0;
         scanf("%lf", &height[i]);
     }
 

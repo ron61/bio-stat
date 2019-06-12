@@ -62,10 +62,11 @@ int main(void)
     double population[100];
     double sample[10];
     double a,b,m,s;
-    int m_number,s_number;
+    int m_number,s_number,miss_number;
     m_number = 0;
     s_number = 0;
-    double ma,mb,sa,sb;
+    miss_number = 0;
+    double ma,mb,sa,sb,missa,missb;
 
     int n;
     scanf("%d", &n);
@@ -94,13 +95,18 @@ int main(void)
         sa = 10 * sDispersion(10,sample) / 20.4832;
         sb = 10 * sDispersion(10,sample) / 3.247;
 
+        missa = m - 1.96 * s / sqrt(10);
+        missb = m + 1.96 * s / sqrt(10);
+
         if(ma < 4.55 && 4.55 < mb) m_number ++;
         if(sa < 0.152 && 0.152 < sb) s_number ++;
+        if(missa < 4.55 && 4.55 < missb) miss_number ++;
     }
     
 
     printf("平均の回数　%d\n", m_number);
     printf("分散の回数　%d\n", s_number);
+    printf("正規分布と仮定　%d\n", miss_number);
     
 
     return 0;
