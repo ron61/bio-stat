@@ -85,22 +85,23 @@ int main(void)
             sample[i] = population[rand()%100];
         }
 
-        m = mean(n,sample);
-        s = sStandardDispersion(n,sample);
+        m = mean(10,sample);
+        s = sStandardDispersion(10,sample);
 
         ma = m - 2.2281 * s / sqrt(10);
         mb = m + 2.2281 * s / sqrt(10);
 
-        sa = 10 * sDispersion(n,sample) / 20.4832;
-        sb = 10 * sDispersion(n,sample) / 3.247;
+        sa = 10 * sDispersion(10,sample) / 20.4832;
+        sb = 10 * sDispersion(10,sample) / 3.247;
 
         if(ma < 4.55 && 4.55 < mb) m_number ++;
         if(sa < 0.152 && 0.152 < sb) s_number ++;
     }
     
-    
+
     printf("平均の回数　%d\n", m_number);
     printf("分散の回数　%d\n", s_number);
+    
 
     return 0;
     
