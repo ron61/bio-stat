@@ -23,11 +23,7 @@ double sDispersion(int n,double x[])
     double m, disp;
     disp = 0;
     m = mean(n,x);
-    for(int i = 0; i < n; i++)
-    {
-        disp += (x[i] - m) * (x[i] - m) / (n-1);
-    }
-    
+    for(int i = 0; i < n; i++) disp += (x[i] - m) * (x[i] - m) / (n-1);
     return disp;
 }
 
@@ -84,8 +80,8 @@ int main(void)
         }
 
         m = mean(10,sample);
-        s = dispersion(10,sample);
-        c = standardDispersion(10,sample)*100/m;
+        s = sDispersion(10,sample);
+        c = sStandardDispersion(10,sample)*100/m;
 
         dat[0][j] = m;
         dat[1][j] = s;
@@ -97,9 +93,9 @@ int main(void)
     s = mean(10000,dat[1]);
     c = mean(10000,dat[2]);
     
-    me = standardDispersion(10000,dat[0]);
-    se = standardDispersion(10000,dat[1]);
-    ce = standardDispersion(10000,dat[2]);
+    me = sStandardDispersion(10000,dat[0]);
+    se = sStandardDispersion(10000,dat[1]);
+    ce = sStandardDispersion(10000,dat[2]);
 
 
     printf("母平均　%8.3lf\n", m);

@@ -109,8 +109,8 @@ int main(void)
         }
 
         m = mean(10,sample);
-        s = dispersion(10,sample);
-        c = standardDispersion(10,sample)*100/m;
+        s = sDispersion(10,sample);
+        c = sStandardDispersion(10,sample)*100/m;
 
         dat[0][j] = m;
         dat[1][j] = s;
