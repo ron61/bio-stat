@@ -114,26 +114,30 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    //double mean_of_means,mean_of_variances,mean_of_stddisps,variances_of_means;
-    srand(time(0));    // seedは現在時刻
-    double population[20];
-    //double sample[10];
-    double a,b,m,s,P,m0,t;
-    int n;
+    double mouse[2][20];
+    double a,b,m,s,t,f,m1,m2,v1,v2,v;
+    int n1,n2;
 
     // データの読み込み
-    for(int i = 0; i < 20; i++)
+    scanf("%d", &n1);
+    for(int i = 0; i < n1; i++)
     {
-        population[i] = 0;
-        scanf("%lf", &population[i]);
+        mouse[0][i] = 0;
+        scanf("%lf", &mouse[0][i]);
     }
-    m0 = 36.1;
-    n = 20;
+    scanf("%d", &n2);
+    for(int i = 0; i < n2; i++)
+    {
+        mouse[1][i] = 0;
+        scanf("%lf", &mouse[1][i]);
+    }
 
-    t = (mean(n,population) - m0) / sStandardDispersion(n,population);
+    v = ((n1 - 1)*dispersion(n1,mouse[0]) + (n2 - 1)*dispersion(n2,mouse[1])) / (n1 + n2 -2);
+    t = (mean(n1,mouse[0]) - mean(n2,mouse[1])) / sqrt((1/(double)n1 + 1/(double)n2) * v);
+    f = dispersion(n1,mouse[0]) / dispersion(n2,mouse[1]);
     
-    printf("t検定量：%lf\n", t);
-    printf("自由度：%d\n", n-1);
+    printf("t検定量：%lf    自由度：%d\n", t,n1+n2-2);
+    printf("F検定量：%lf\n", f);
 
     return 0;
     
