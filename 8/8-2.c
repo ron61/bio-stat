@@ -116,26 +116,24 @@ int main(void)
 {
     //double mean_of_means,mean_of_variances,mean_of_stddisps,variances_of_means;
     srand(time(0));    // seedは現在時刻
-    //double population[100];
+    double population[20];
     //double sample[10];
-    double a,b,m,s,P;
-    P=0;
+    double a,b,m,s,P,m0,t;
     int n;
-    //scanf("%d", &n);
-    n=25;
-    double p;
-    //scanf("%lf", &p);
-    p=0.5;
-    int k;
-    //scanf("%d", &k);
-    k = 17;
-    
-    for (int i = k; i <= n; i++)
+
+    // データの読み込み
+    for(int i = 0; i < 20; i++)
     {
-        P += ber(p,i,n);
+        population[i] = 0;
+        scanf("%lf", &population[i]);
     }
-        
-    printf("%lf\n", P);
+    m0 = 36.1;
+    n = 20;
+
+    t = (mean(n,population) - m0) / sStandardDispersion(n,population);
+    
+    printf("t検定量：%lf\n", t);
+    printf("自由度：%d\n", n-1);
 
     return 0;
     
