@@ -69,13 +69,23 @@ long int factorial(int n) {
 
 // combinationを計算する関数
 double combination(int n,int m) {
+    double x = 1;
     if(n < 0 || m < 0) {
         printf("error:invalid number in combination function");
         return 0;
     }
 
     if(n >= m) {
-        return (double)factorial(n) / ( factorial(m) * factorial(n - m) );
+        for (int i = 0; i < m; i++)
+        {
+            x *= n - i;
+        }
+        for (int i = 0; i < m; i++)
+        {
+            x /= m - i;
+        }
+        
+        return x;
     }
     else {
         printf("error:first number is smaller than second one.");
