@@ -18,7 +18,7 @@ long int factorial(int n) {
     }
 }
 
-// combinatinoを計算する関数
+// combinationを計算する関数
 int combination(int n,int m) {
     if(n < 0 || m < 0) {
         printf("error:invalid number in combination function");
@@ -50,10 +50,7 @@ int countTrues(int x[],int k) {
 
 // 超幾何分布の関数
 double hypergeom(int M,int N,int n,int k) {
-    int l = combination(M+N,n);
-    double y = 1.1;
-    y = (double)combination(M,k) * combination(N,n-k) / l;
-    return y;
+    return (double)combination(M,k) * combination(N,n-k) / combination(M+N,n);
 }
 
 
