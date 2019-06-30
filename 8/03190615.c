@@ -52,6 +52,15 @@ double standardDispersion(int n,double x[]){
     return sqrt(dispersion(n,x));
 }
 
+int intSum(int n,int x[]) {
+    int m = 0;
+    for (int i = 0; i < n; i++)
+    {
+        m += x[i];
+    }
+    return m;
+}
+
 #pragma endregion
 
 #pragma region distributions
@@ -115,10 +124,10 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    double a,b,m,s,t,f,m1,m2,v1,v2,v;
-    int n;
-    int r,c,mite[2][5];
+    double k2;
+    int n,fi,fj,r,c,mite[2][5];
     n = 0;
+    k2 = 0;
 
     // データの読み込み
     scanf("%d", &r);
@@ -135,22 +144,24 @@ int main(void)
     }
 
 
-    v = ((n1 - 1)*sDispersion(n1,mouse[0]) + (n2 - 1)*sDispersion(n2,mouse[1])) / (n1 + n2 -2);
-    t = (mean(n1,mouse[0]) - mean(n2,mouse[1])) / sqrt((1/(double)n1 + 1/(double)n2) * v);
-    f = sDispersion(n1,mouse[0]) / sDispersion(n2,mouse[1]);
+    for (int i = 0; i < r; i++)
+    {
+        fi = intSum(c,mite[i]);
+        
+        for (int j = 0; j < r; j++)
+        {
+            fj = 0;
+            for (int k = 0; k < r; k++)
+            {
+                fj += mite[k][j];
+            }
+            
+            k2 += (mite[i][j] - fi * fj / n) * (mite[i][j] - fi * fj / n) / (fi * fj / n);
+        }
+    }
     
-    printf("\nt検定量：%lf    自由度：%d\n", t,n1+n2-2);
-    printf("F検定量：%lf    自由度：%d\n\n", f, n1-1);
-
-    printf("size1：%d\n", n1);
-    printf("mean1：%lf\n", mean(n1,mouse[0]));
-    printf("variance1：%lf\n", sDispersion(n1,mouse[0]));
-    printf("sd1：%lf\n\n", sStandardDispersion(n1,mouse[0]));
     
-    printf("size2：%d\n", n2);
-    printf("mean2：%lf\n", mean(n2,mouse[1]));
-    printf("variance2：%lf\n", sDispersion(n2,mouse[1]));
-    printf("sd2：%lf\n", sStandardDispersion(n2,mouse[1]));
+    printf("\nk2検定量：%lf    自由度：%d\n", k2,4);
 
     return 0;
 }
