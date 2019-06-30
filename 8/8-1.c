@@ -114,10 +114,7 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    //double mean_of_means,mean_of_variances,mean_of_stddisps,variances_of_means;
     srand(time(0));    // seedは現在時刻
-    //double population[100];
-    //double sample[10];
     double a,b,m,s,P;
     P=0;
     int n;
@@ -130,10 +127,7 @@ int main(void)
     //scanf("%d", &k);
     k = 17;
     
-    for (int i = k; i <= n; i++)
-    {
-        P += ber(p,i,n);
-    }
+    for (int i = k; i <= n; i++) P += ber(p,i,n);
         
     printf("%lf\n", P);
 
