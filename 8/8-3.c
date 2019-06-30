@@ -21,6 +21,7 @@ double sDispersion(int n,double x[])
 {
     int i;
     double m, disp;
+    disp = 0;
     m = mean(n,x);
     for(int i = 0; i < n; i++)
     {
@@ -132,12 +133,22 @@ int main(void)
         scanf("%lf", &mouse[1][i]);
     }
 
-    v = ((n1 - 1)*dispersion(n1,mouse[0]) + (n2 - 1)*dispersion(n2,mouse[1])) / (n1 + n2 -2);
+    v = ((n1 - 1)*sDispersion(n1,mouse[0]) + (n2 - 1)*sDispersion(n2,mouse[1])) / (n1 + n2 -2);
     t = (mean(n1,mouse[0]) - mean(n2,mouse[1])) / sqrt((1/(double)n1 + 1/(double)n2) * v);
-    f = dispersion(n1,mouse[0]) / dispersion(n2,mouse[1]);
+    f = sDispersion(n1,mouse[0]) / sDispersion(n2,mouse[1]);
     
-    printf("t検定量：%lf    自由度：%d\n", t,n1+n2-2);
-    printf("F検定量：%lf\n", f);
+    printf("\nt検定量：%lf    自由度：%d\n", t,n1+n2-2);
+    printf("F検定量：%lf    自由度：%d\n\n", f, n1-1);
+
+    printf("size1：%d\n", n1);
+    printf("mean1：%lf\n", mean(n1,mouse[0]));
+    printf("variance1：%lf\n", sDispersion(n1,mouse[0]));
+    printf("sd1：%lf\n\n", sStandardDispersion(n1,mouse[0]));
+    
+    printf("size2：%d\n", n2);
+    printf("mean2：%lf\n", mean(n2,mouse[1]));
+    printf("variance2：%lf\n", sDispersion(n2,mouse[1]));
+    printf("sd2：%lf\n", sStandardDispersion(n2,mouse[1]));
 
     return 0;
     

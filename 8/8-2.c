@@ -114,10 +114,8 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    //double mean_of_means,mean_of_variances,mean_of_stddisps,variances_of_means;
     srand(time(0));    // seedは現在時刻
     double population[20];
-    //double sample[10];
     double a,b,m,s,P,m0,t;
     int n;
 
@@ -130,10 +128,13 @@ int main(void)
     m0 = 36.1;
     n = 20;
 
-    t = (mean(n,population) - m0) / sStandardDispersion(n,population);
+    t = (mean(n,population) - m0) / ( sStandardDispersion(n,population) / sqrt(n) );
     
     printf("t検定量：%lf\n", t);
     printf("自由度：%d\n", n-1);
+    printf("sample mean：%lf\n", mean(n,population));
+    printf("sample variance：%lf\n", sDispersion(n,population));
+    printf("sample standard dispersion：%lf\n", sStandardDispersion(n,population));
 
     return 0;
     
