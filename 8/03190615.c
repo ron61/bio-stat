@@ -125,7 +125,7 @@ double geom(double p,int k) {
 int main(void)
 {
     double k2;
-    int n,fi,fj,r,c,mite[2][5];
+    int n,fi,fj,r,c,mite[5][2];
     n = 0;
     k2 = 0;
     fi = 0;
@@ -150,11 +150,12 @@ int main(void)
 
     for (int i = 0; i < r; i++)
     {
-        fi = intSum(c,mite[i]);
+        fi = mite[i][0] + mite[i][1];
         
-        for (int j = 0; j < r; j++)
+        for (int j = 0; j < c; j++)
         {
             fj = 0;
+
             for (int k = 0; k < r; k++)
             {
                 fj += mite[k][j];
@@ -163,15 +164,18 @@ int main(void)
             k2 += (mite[i][j] - fi * fj / n) * (mite[i][j] - fi * fj / n) / (fi * fj / n);
         }
     }
-    
-    
-    printf("\nk2検定量：%lf    自由度：%d\n", k2,4);
-    
-    for (int i = 0; i < r; i++)
-    {
-        printf("%d   %d\n", mite[i][0],mite[i][1]);
-    }
-    
+
+    printf("k2検定量：%lf\n", k2);
+    printf("自由度：%d\n", 4);
 
     return 0;
 }
+
+/*
+このプログラムを実行すると，出力結果は以下のようになる．
+｀｀｀
+k2検定量：26.000
+自由度：4
+｀｀｀
+一方，カイ二乗分布表を見ると，
+*/
