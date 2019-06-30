@@ -115,23 +115,25 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    double mouse[2][20];
     double a,b,m,s,t,f,m1,m2,v1,v2,v;
-    int n1,n2;
+    int n;
+    int r,c,mite[2][5];
+    n = 0;
 
     // データの読み込み
-    scanf("%d", &n1);
-    for(int i = 0; i < n1; i++)
+    scanf("%d", &r);
+    scanf("%d", &c);
+    for(int i = 0; i < r; i++)
     {
-        mouse[0][i] = 0;
-        scanf("%lf", &mouse[0][i]);
+        for (int j = 0; j < c; j++)
+        {
+            mite[i][j] = 0;
+            scanf("%d", &mite[i][j]);
+            // nの計算
+            n += mite[i][j];
+        }
     }
-    scanf("%d", &n2);
-    for(int i = 0; i < n2; i++)
-    {
-        mouse[1][i] = 0;
-        scanf("%lf", &mouse[1][i]);
-    }
+
 
     v = ((n1 - 1)*sDispersion(n1,mouse[0]) + (n2 - 1)*sDispersion(n2,mouse[1])) / (n1 + n2 -2);
     t = (mean(n1,mouse[0]) - mean(n2,mouse[1])) / sqrt((1/(double)n1 + 1/(double)n2) * v);
