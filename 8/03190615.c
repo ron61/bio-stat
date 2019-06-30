@@ -128,6 +128,10 @@ int main(void)
     int n,fi,fj,r,c,mite[2][5];
     n = 0;
     k2 = 0;
+    fi = 0;
+    fj = 0;
+    r = 0;
+    c = 0;
 
     // データの読み込み
     scanf("%d", &r);
@@ -162,6 +166,12 @@ int main(void)
     
     
     printf("\nk2検定量：%lf    自由度：%d\n", k2,4);
+    
+    for (int i = 0; i < r; i++)
+    {
+        printf("%d   %d\n", mite[i][0],mite[i][1]);
+    }
+    
 
     return 0;
 }
