@@ -115,18 +115,18 @@ double geom(double p,int k) {
 
 int main(void)
 {
-    double kasagai[2][3][8],m[2][3] = {};
-    double s,t,f,m1,m2,v1,v2,v,M = 0;
+    double kasagai[3][2][8],m[3][2] = {};
+    double s,t,f,m1,m2,v1,v2,v,M,x = 0;
     int n1,n2,a,n,b = 0;
-    double st,se,sa,sb,sab,msa,msb,msab,mse,Fa,Fb,Fab = 0;
+    double st,st_,se,sa,sb,sab,msa,msb,msab,mse,Fa,Fb,Fab = 0;
 
     // カサガイデータの読み込み
     scanf("%d", &a);
     scanf("%d", &b);
     scanf("%d", &n);
-    for(int i = 0; i < b; i++)
+    for(int i = 0; i < a; i++)
     {
-        for (int j = 0; j < a; j++)
+        for (int j = 0; j < b; j++)
         {
             for (int k = 0; k < n; k++)
             {
@@ -136,35 +136,71 @@ int main(void)
     }
 
     // mijの計算
-    for (int i = 0; i < b; i++)
+    for (int i = 0; i < a; i++)
     {
-        for (int j = 0; j < a; j++)
+        for (int j = 0; j < b; j++)
         {
             m[i][j] = mean(n,kasagai[i][j]);
         }
     }
 
-    
-
-    M = mean(a,m);
-    
-    // stを求める
-    st = 0;
+    // 全体の平均を計算
     for (int i = 0; i < a; i++)
     {
-        for (int j = 0; j < n; j++)
+        M += mean(b,m[i]);
+    }
+        
+    // saを求める
+    x = 0;
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
         {
-            st += (bean[i][j] - M) * (bean[i][j] - M);
+            for (int k = 0; k < n; k++)
+            {
+                x += kasagai[i][j][k] / (b * n);
+            }
         }
+        sa += n * b * (x - M) * (x - M);
+    }
+
+    // sbを求める
+    x = 0;
+    for (int j = 0; j < b; j++)
+    {
+        for (int i = 0; i < a; i++)
+        {
+            for (int k = 0; k < n; k++)
+            {
+                x += kasagai[i][j][k] / (a * n);
+            }
+        }
+        sb += n * a * (x - M) * (x - M);
     }
 
     // seを求める
-    se = 0;
     for (int i = 0; i < a; i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < b; j++)
         {
-            se += (bean[i][j] - m[i]) * (bean[i][j] - m[i]);
+            for (int k = 0; k < n; k++)
+            {
+                se += (kasagai[i][j][k] - m[i][j]) * (kasagai[i][j][k] - m[i][j]);
+            }
+        }
+    }
+
+    // stを求める
+    st = sa + sb + sab + se;
+    // check用のstを求める
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
+        {
+            for (int k = 0; k < n; k++)
+            {
+                st_ += (kasagai[i][j][k] - M) * (kasagai[i][j][k] - M);
+            }
         }
     }
 
@@ -179,12 +215,17 @@ int main(void)
     Fab = msab / mse;
     
 
-    printf("要因    自由度    平方和       平均平方    F値");
-    printf("A       %2d     %8.3lf      %8.3lf     %8.3lf\n", a-1,sa,msa,Fa);
-    printf("B       %2d     %8.3lf      %8.3lf     %8.3lf\n", b-1,sb,msb,Fb);
-    printf("A*B     %2d     %8.3lf      %8.3lf     %8.3lf\n", (a-1)*(b-1),sab,msab,Fab);
-    printf("誤差     %2d     %8.3lf      %8.3lf\n", a * b * (n-1),se,mse);
-    printf("合計     %2d     %8.3lf\n", a * b * n -1,st);
+    printf("要因    自由度    平方和       平均平方    F値\n");
+    printf("A       %2d     %6.3lf      %6.3lf     %6.3lf\n", a-1,sa,msa,Fa);
+    printf("B       %2d     %6.3lf      %6.3lf     %6.3lf\n", b-1,sb,msb,Fb);
+    printf("A*B     %2d     %6.3lf      %6.3lf     %6.3lf\n", (a-1)*(b-1),sab,msab,Fab);
+    printf("誤差     %2d     %6.3lf      %6.3lf\n", a * b * (n-1),se,mse);
+    printf("合計     %2d     %6.3lf\n", a * b * n -1,st);
+    printf("stチェック   %8.3lf\n", st_);
 
     return 0;
 }
+
+/*
+
+ */
