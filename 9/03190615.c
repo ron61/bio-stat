@@ -118,7 +118,7 @@ int main(void)
     double kasagai[3][2][8],m[3][2] = {};
     double s,t,f,m1,m2,v1,v2,v,M,x = 0;
     int n1,n2,a,n,b = 0;
-    double st,st_,se,sa,sb,sab,msa,msb,msab,mse,Fa,Fb,Fab = 0;
+    double st,se,sa,sb,sab,msa,msb,msab,mse,Fa,Fb,Fab = 0;
 
     // カサガイデータの読み込み
     scanf("%d", &a);
@@ -178,6 +178,35 @@ int main(void)
         sb += n * a * (x - M) * (x - M);
     }
 
+    // sabを求める
+    x = 0;
+    int y = 0;
+    for (int i = 0; i < a; i++)
+    {
+        x = 0;
+        for (int j = 0; j < b; j++)
+        {
+            for (int k = 0; k < n; k++)
+            {
+                x += kasagai[i][j][k] / (b * n);
+            }
+        }
+
+        for (int j = 0; j < b; j++)
+        {
+            y = 0;
+            for (int i = 0; i < a; i++)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    y += kasagai[i][j][k] / (a * n);
+                }
+            }
+
+            sab += n * (m[i][j] - x - y + M) * (m[i][j] - x - y + M);
+        }
+    }
+
     // seを求める
     for (int i = 0; i < a; i++)
     {
@@ -192,18 +221,6 @@ int main(void)
 
     // stを求める
     st = sa + sb + sab + se;
-    // check用のstを求める
-    for (int i = 0; i < a; i++)
-    {
-        for (int j = 0; j < b; j++)
-        {
-            for (int k = 0; k < n; k++)
-            {
-                st_ += (kasagai[i][j][k] - M) * (kasagai[i][j][k] - M);
-            }
-        }
-    }
-
 
     sa = st - se;
     msa = sa / (a-1);
@@ -221,11 +238,20 @@ int main(void)
     printf("A*B     %2d     %6.3lf      %6.3lf     %6.3lf\n", (a-1)*(b-1),sab,msab,Fab);
     printf("誤差     %2d     %6.3lf      %6.3lf\n", a * b * (n-1),se,mse);
     printf("合計     %2d     %6.3lf\n", a * b * n -1,st);
-    printf("stチェック   %8.3lf\n", st_);
 
     return 0;
 }
 
 /*
+結果は次のようになる．
 
+要因    自由度     平方和         平均平方         F値
+A        2     58642.546      29321.273     3067.069
+B        1     10734.670      10734.670     1122.870
+A*B      2     40193.871      20096.935     2102.183
+誤差     42     401.521       9.560
+合計     47     59044.068
+
+F値を見ると，全てそれぞれの自由度における有意水準0.01の上側有意確率を上回っている．
+よって，A，B，およびその二つの交差要因の計三つの要因全てが影響を与えていると言える．
  */
