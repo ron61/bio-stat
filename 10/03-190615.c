@@ -1,4 +1,7 @@
 /* 03-190615 Ryu Kudoh */
+/*
+Newton法を用いた．
+ */
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -131,8 +134,72 @@ double logL(double a, double b, double x[50], int y[50]) {
     return logL;
 }
 
-void dfInverse(double a, double b, double df_inverse[2][2], double x[50], double y[50]) {
+void dLogL(double a, double b, double x[50], int y[50], double dlogL[2]) {
+    dlogL[0] = 0;
+    dlogL[1] = 0;
+    for (int i = 0; i < 50; i++)
+    {
+        dlogL[0] += y[i] - exp(a + b * x[i]);
+        dlogL[1] += x[i] * ( y[i] - exp(a + b * x[i]) );
+    }
+}
+
+void dfInverse(double a, double b, double x[50], int y[50], double df_inverse[2][2]) {
+    // k   : ヤコビ行列の係数の逆数 = ad - bc
+    // tmp : 計算のための一時変数
     double k,tmp = 0;
+
+    // kの計算開始
+    for (int i = 0; i < 50; i++)
+    {
+        tmp += x[i] * x[i] * exp(a + b * x[i]);
+    }
+
+    k = tmp;
+    tmp = 0;
+
+    for (int i = 0; i < 50; i++)
+    {
+        tmp += exp(a + b * x[i]);
+    }
+
+    k *= tmp;
+    tmp = 0;
+
+    for (int i = 0; i < 50; i++)
+    {
+        tmp += x[i] * exp(a + b * x[i]);
+    }
+
+    k -= tmp * tmp;
+    // kの計算終了
+
+    // df_inverseの初期化
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            df_inverse[i][j] = 0;
+        }
+    }
+
+    // df_inverseの係数以外の計算
+    for (int i = 0; i < 50; i++)
+    {
+        df_inverse[0][0] -= x[i] * x[i] * exp(a + b * x[i]);
+        df_inverse[0][1] += x[i] * exp(a + b * x[i]);
+        df_inverse[1][0] += x[i] * exp(a + b * x[i]);
+        df_inverse[1][1] -= exp(a + b * x[i]);
+    }
+
+    // df_inverseに係数をかける
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            df_inverse[i][j] /= k;
+        }
+    }
     
 }
 
@@ -144,8 +211,9 @@ void matrixProduct(double A[2][2],double B[2], double product[2]) {
 int main(void) {
     double x[50] = {};
     int y[50] = {};
-    double df_inverse[2][2],product[2] = {};
-    double a,b = 1;
+    double df_inverse[2][2],product[2],dlogL[2] = {};
+    double a,b = 0.01; // 初期値は収束するように定める必要がある
+    int count = 0;
 
     // データの読み込み
     for(int i = 0; i < 50; i++) {
@@ -154,12 +222,19 @@ int main(void) {
     }
 
     while(1) {
-        dfInverse(a,b,df_inverse,x,y);
-        matrixProduct(df_inverse,f(a,b),product);
+        dfInverse(a,b,x,y,df_inverse);
+        matrixProduct(df_inverse,dlogL,product);
         a -= product[0];
         b -= product[1];
+        dLogL(a,b,x,y,dlogL);
+
+        printf("%8.3lf \t %8.3lf\n",dlogL[0],dlogL[1]);
         
-        if(abs(f) < 0.01) break;
+        // dlogLのL2ノルムがゼロに十分近づいたら終了する
+        if(fabs(dlogL[0] * dlogL[0] + dlogL[1] * dlogL[1]) < 0.01) break;
+
+        count  ++;
+        if(count > 30) break;
     }
 
 
