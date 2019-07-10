@@ -113,25 +113,59 @@ double geom(double p,int k) {
 
 #pragma endregion
 
-int main(void)
-{
+double logL(double a, double b, double x[50], int y[50]) {
+    double logL = 0;
+    for (int i = 0; i < 50; i++)
+    {
+        logL += (double)y[i] * ( a + b * x[i]) - exp(a + b * x[i]);
+    }
+
+    for (int i = 0; i < 50; i++)
+    {
+        for (int j = 0; j < y[i]; j++)
+        {
+            logL += log(j);
+        }
+    }
+    
+    return logL;
+}
+
+void dfInverse(double a, double b, double df_inverse[2][2], double x[50], double y[50]) {
+    double k,tmp = 0;
+    
+}
+
+void matrixProduct(double A[2][2],double B[2], double product[2]) {
+    product[0] = A[0][0] * B[0] + A[0][1] * B[1];
+    product[1] = A[1][0] * B[0] + A[1][1] * B[1];
+}
+
+int main(void) {
     double x[50] = {};
     int y[50] = {};
-
-    double a,b = 0;
-
-
+    double df_inverse[2][2],product[2] = {};
+    double a,b = 1;
 
     // データの読み込み
-    for(int i = 50; i < a; i++)
-    {
+    for(int i = 0; i < 50; i++) {
         scanf("%lf", &x[i]);
         scanf("%d", &y[i]);
     }
 
+    while(1) {
+        dfInverse(a,b,df_inverse,x,y);
+        matrixProduct(df_inverse,f(a,b),product);
+        a -= product[0];
+        b -= product[1];
+        
+        if(abs(f) < 0.01) break;
+    }
 
 
-    printf("要因    自由度    平方和       平均平方    F値\n");
+    printf("a : %lf\n",a);
+    printf("b : %lf\n",b);
+    printf("logL : %lf\n",logL(a,b,x,y));
 
     return 0;
 }
