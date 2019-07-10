@@ -125,9 +125,9 @@ double logL(double a, double b, double x[50], int y[50]) {
 
     for (int i = 0; i < 50; i++)
     {
-        for (int j = 0; j < y[i]; j++)
+        for (int j = 1; j <= y[i]; j++)
         {
-            logL += log(j);
+            logL -= log(j);
         }
     }
     
@@ -212,15 +212,14 @@ int main(void) {
     double x[50] = {};
     int y[50] = {};
     double df_inverse[2][2],product[2],dlogL[2] = {};
-    double a,b = 0.01; // 初期値は収束するように定める必要がある
-    int count = 0;
+    double a,b = 0; // 初期値は収束するように定める必要がある
 
     // データの読み込み
     for(int i = 0; i < 50; i++) {
         scanf("%lf", &x[i]);
         scanf("%d", &y[i]);
     }
-
+    
     while(1) {
         dfInverse(a,b,x,y,df_inverse);
         matrixProduct(df_inverse,dlogL,product);
@@ -232,15 +231,11 @@ int main(void) {
         
         // dlogLのL2ノルムがゼロに十分近づいたら終了する
         if(fabs(dlogL[0] * dlogL[0] + dlogL[1] * dlogL[1]) < 0.01) break;
-
-        count  ++;
-        if(count > 30) break;
     }
-
-
-    printf("a : %lf\n",a);
-    printf("b : %lf\n",b);
-    printf("logL : %lf\n",logL(a,b,x,y));
+    
+    printf("a    : %8.5lf\n",a);
+    printf("b    : %8.5lf\n",b);
+    printf("logL : %8.5lf\n",logL(a,b,x,y));
 
     return 0;
 }
